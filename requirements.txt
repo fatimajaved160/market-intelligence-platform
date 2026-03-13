@@ -1,7 +1,9 @@
 pandas
 numpy
 plotly
-streamlit
+streamlit==1.32.0
+altair==4.2.2
+protobuf==3.20.3
 google-cloud-bigquery
 google-cloud-bigquery-storage
 pyarrow
