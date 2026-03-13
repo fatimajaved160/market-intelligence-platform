@@ -23,8 +23,30 @@ st.set_page_config(
 
 @st.cache_resource
 def get_client():
-    return bigquery.Client(project="project-a13303d6-d497-41fa-ab8")
-
+    import json
+    from google.oauth2.credentials import Credentials
+    
+    creds_dict = {
+        "client_id": st.secrets["gcp_credentials"]["client_id"],
+        "client_secret": st.secrets["gcp_credentials"]["client_secret"],
+        "refresh_token": st.secrets["gcp_credentials"]["refresh_token"],
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "quota_project_id": st.secrets["gcp_credentials"]["quota_project_id"]
+    }
+    
+    credentials = Credentials(
+        token=None,
+        refresh_token=creds_dict["refresh_token"],
+        token_uri=creds_dict["token_uri"],
+        client_id=creds_dict["client_id"],
+        client_secret=creds_dict["client_secret"],
+        quota_project_id=creds_dict["quota_project_id"]
+    )
+    
+    return bigquery.Client(
+        project="project-a13303d6-d497-41fa-ab8",
+        credentials=credentials
+    )
 client = get_client()
 
 # ============================================================
